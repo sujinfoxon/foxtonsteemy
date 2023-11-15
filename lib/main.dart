@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:meal_monkey/UI/allStores.dart';
 import 'package:meal_monkey/firebase_options.dart';
 import 'package:meal_monkey/screens/home_screen.dart';
 import 'package:meal_monkey/screens/login_page.dart';
@@ -41,10 +42,10 @@ class _MyAppState extends State<MyApp> {
                 ),
               );
             } else if (user.hasData) {
-              return const  NavBarRoots();
+              return const  AllStores();
               //return const SellScreen();
             } else {
-              return const RegistrationPage();
+              return const AllStores();
             }
           })
     );
