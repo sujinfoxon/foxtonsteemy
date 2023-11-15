@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "40514910825",
+    "project_id": "foxtonsteemy-765c3",
+    "storage_bucket": "foxtonsteemy-765c3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40514910825:android:a84c7e400d056ee966c0f8",
+        "android_client_info": {
+          "package_name": "com.example.foxtonsteemy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJcfTjcQLFwGQa2IpgAvWQhpwJL4kAvl0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
