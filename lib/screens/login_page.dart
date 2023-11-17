@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:lottie/lottie.dart';
 import 'package:get/get.dart';
@@ -29,7 +30,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color(0xFF282828),
-body:_isLoading ? Center(child: CircularProgressIndicator(color: Colors.cyan,),) : SafeArea(
+body:_isLoading ? Center(child:  SpinKitCubeGrid(
+  color: Color(0xFFefcf18),
+  size: 50.0,
+),) : SafeArea(
   child:   SingleChildScrollView(
     child:   Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 80),
@@ -47,10 +51,10 @@ body:_isLoading ? Center(child: CircularProgressIndicator(color: Colors.cyan,),)
                 fontSize: 15,fontWeight:FontWeight.w400,color: Colors.white
             ),),
             Center(
-              child: Lottie.asset("assets/animation_lmp2gl7h.json"),
+              child: Lottie.asset("assets/animation_lmp2gl7h.json",height: 300,width: 300),
 
             ),
-            SizedBox(height: 45,),
+            SizedBox(height: 15,),
             TextFormField(
               style:TextStyle(color: Colors.white),
               decoration:textInputDecoration.copyWith(
