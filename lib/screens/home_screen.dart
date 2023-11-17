@@ -1,14 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:meal_monkey/firebase/datas/userdata.dart';
 import 'package:meal_monkey/screens/category_screen.dart';
 import 'package:meal_monkey/screens/item_screen.dart';
 import 'package:meal_monkey/screens/restaurants.dart';
+import 'package:meal_monkey/utils/utils.dart';
 
 import '../firebase/offer slider/offer_slider.dart';
 import '../widgets/tab_controller.dart';
-
+import 'package:image_picker/image_picker.dart';
 class HomeScreen extends StatefulWidget {
 
   const HomeScreen({super.key});
@@ -18,6 +20,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Uint8List? _image;
+  void selectImage() async {
+    Uint8List im = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = im;
+    });
+  }
   List _products = [];
   var _firestoreInstance = FirebaseFirestore.instance;
   fetchProducts() async {
@@ -104,6 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+
                         Text(
                           "Deliver to",
                           style: TextStyle(fontSize: 22, color: Colors.black54,fontWeight: FontWeight.bold),
@@ -136,30 +146,33 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ],
                     ),
-                    Stack(
-                      children: [
-                        Container(
-                          height: 50,
-                          width: 50,
-                          margin: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              image: DecorationImage(
-                                  image: AssetImage("assets/profile.jpg"),
-                                  fit: BoxFit.cover)),
-                        ),
-                        Positioned(
-                          left: 40,
-                          child: Container(
+                    GestureDetector(
+                      onTap: (){    selectImage();},
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: 50,
+                            width: 50,
                             margin: EdgeInsets.all(5),
-                            padding: EdgeInsets.all(5),
                             decoration: BoxDecoration(
-                                border: Border.all(color: Colors.white, width: 3),
-                                color: Color(0xFFFF2F08),
-                                shape: BoxShape.circle),
+                                borderRadius: BorderRadius.circular(15),
+                                ),
+                            child:    Stack(
+                              children: [
+                                _image != null
+                                    ? CircleAvatar(
+                                    backgroundImage: MemoryImage(_image!))
+                                    : const CircleAvatar(
+
+                                  backgroundImage: NetworkImage("https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-370-456322-512.png")
+                                ),
+
+                              ],
+                            ) ,
                           ),
-                        )
-                      ],
+
+                        ],
+                      ),
                     )
                   ],
                 ),

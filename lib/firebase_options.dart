@@ -44,14 +44,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDaasmfp-cAF4daJzJiaNeAcvEWGFY6srs',
-    appId: '1:597699757571:web:d485de2066434f600b7036',
-    messagingSenderId: '597699757571',
-    projectId: 'steemy-b2316',
-    authDomain: 'steemy-b2316.firebaseapp.com',
-    storageBucket: 'steemy-b2316.appspot.com',
-    measurementId: 'G-FX8XNX2M7K',
+    apiKey: "AIzaSyC7wcWqOtbADczYeAxzeRUIcDySFrsPeiE",
+    appId: "1:40514910825:web:f8e2a12ce7a0938d66c0f8",
+    messagingSenderId: "40514910825",
+    projectId: "foxtonsteemy-765c3",
+    authDomain: "foxtonsteemy-765c3.firebaseapp.com",
+    storageBucket: "foxtonsteemy-765c3.appspot.com",
+      measurementId: "G-BQMD633WE5",
   );
+
+
+
+
+
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyC7wcWqOtbADczYeAxzeRUIcDySFrsPeiE',
