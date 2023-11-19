@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:meal_monkey/firebase/datas/userdata.dart';
+import 'package:meal_monkey/profile_pages/user_profile_screen.dart';
 import 'package:meal_monkey/screens/category_screen.dart';
 import 'package:meal_monkey/screens/item_screen.dart';
 import 'package:meal_monkey/screens/restaurants.dart';
@@ -27,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _image = im;
     });
   }
+
   List _products = [];
   var _firestoreInstance = FirebaseFirestore.instance;
   fetchProducts() async {
@@ -147,28 +149,21 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     GestureDetector(
-                      onTap: (){    selectImage();},
+                      onTap: (){Navigator.push(context,MaterialPageRoute(builder: (context)=>UserProfileScreen()));},
                       child: Stack(
                         children: [
-                          Container(
-                            height: 50,
-                            width: 50,
-                            margin: EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                ),
-                            child:    Stack(
-                              children: [
-                                _image != null
-                                    ? CircleAvatar(
-                                    backgroundImage: MemoryImage(_image!))
-                                    : const CircleAvatar(
+                          Stack(
+                            children: [
+                              _image != null
+                                  ? CircleAvatar(
+                                radius:30,
+                                  backgroundImage: MemoryImage(_image!))
+                                  : const CircleAvatar(
+                                  radius:30,
+                                backgroundImage: NetworkImage("https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-370-456322-512.png")
+                              ),
 
-                                  backgroundImage: NetworkImage("https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-370-456322-512.png")
-                                ),
-
-                              ],
-                            ) ,
+                            ],
                           ),
 
                         ],

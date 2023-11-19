@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meal_monkey/screens/home_screen.dart';
+import 'package:meal_monkey/widgets/nav_bar.dart';
 
 
 class SplashScreenMain extends StatefulWidget {
@@ -18,7 +19,7 @@ class _SplashScreenMainState extends State<SplashScreenMain> {
     Timer(
         Duration(seconds: 3),
             () => Navigator.push(
-            context, CupertinoPageRoute(builder: (_) => HomeScreen())));
+            context, CupertinoPageRoute(builder: (_) => NavBarRoots())));
     // TODO: implement initState
     super.initState();
   }

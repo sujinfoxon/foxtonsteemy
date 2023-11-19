@@ -14,7 +14,7 @@ class _ImageSliderFirebaseState extends State<ImageSliderFirebase> {
   List<String> _carouselImages = [];
   var _dotPosition = 0;
   List _products = [];
-  var _firestoreInstance = FirebaseFirestore.instance;
+
 
   fetchCarouselImages() async {
     var _firestoreInstance = FirebaseFirestore.instance;
@@ -54,6 +54,7 @@ class _ImageSliderFirebaseState extends State<ImageSliderFirebase> {
                   padding: const EdgeInsets.only(left: 3, right: 3),
                   child: Container(
                     decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
                         image: DecorationImage(
                             image: NetworkImage(item),
                             fit: BoxFit.fitWidth)),
