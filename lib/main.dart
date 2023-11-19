@@ -1,5 +1,10 @@
+
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -35,7 +40,41 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    startStreaming();
+  }
+  late ConnectivityResult result;
+  late StreamSubscription subscription;
+  var isConnected = false;
+  checkInternet() async{
+    result = await Connectivity().checkConnectivity();
+    if(result != ConnectivityResult.none){
+      isConnected = true;
+    }else{
+      isConnected = false;
+      showDialogBox();
+    }
+    setState(() {
 
+    });
+  }
+  showDialogBox(){
+    showDialog(context: context, builder:(context)=>CupertinoAlertDialog(
+      title: Text("No Internet"),
+      content: Text("Please check your internet connection"),
+      actions: [
+        CupertinoButton.filled(child: Text("Retry"), onPressed:(){}),
+      ],
+    ));
+  }
+  startStreaming(){
+    subscription = Connectivity().onConnectivityChanged.listen((event) async{
+      checkInternet();
+    });
+  }
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,

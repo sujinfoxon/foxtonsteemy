@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:meal_monkey/firebase/datas/userdata.dart';
@@ -63,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String address = '';
   @override
   void initState() {
+    startStreaming();
     super.initState();
     fetchProducts();
     // Get the current user ID.
@@ -81,6 +86,35 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  late ConnectivityResult result;
+  late StreamSubscription subscription;
+  var isConnected = false;
+  checkInternet() async{
+    result = await Connectivity().checkConnectivity();
+    if(result != ConnectivityResult.none){
+      isConnected = true;
+    }else{
+      isConnected = false;
+      showDialogBox();
+    }
+    setState(() {
+
+    });
+  }
+  showDialogBox(){
+    showDialog(context: context, builder:(context)=>CupertinoAlertDialog(
+      title: Text("No Internet"),
+      content: Text("Please check your internet connection"),
+      actions: [
+        CupertinoButton.filled(child: Text("Retry"), onPressed:(){}),
+      ],
+    ));
+  }
+  startStreaming(){
+    subscription = Connectivity().onConnectivityChanged.listen((event) async{
+      checkInternet();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     List foods = ["Burger", "Pizza", "Snacks", "Water",];
