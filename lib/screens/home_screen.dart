@@ -7,7 +7,6 @@ import 'package:meal_monkey/screens/category_screen.dart';
 import 'package:meal_monkey/screens/item_screen.dart';
 import 'package:meal_monkey/screens/restaurants.dart';
 import 'package:meal_monkey/utils/utils.dart';
-
 import '../firebase/offer slider/offer_slider.dart';
 import '../widgets/tab_controller.dart';
 import 'package:image_picker/image_picker.dart';
@@ -125,23 +124,23 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             Icon(
                               Icons.location_on,
-                              color: Color(0xFFFF2F08),
+                              color: Color(0xFFFF5208),
                             ),
                             Text(
                               "$name ,",
                               style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
+                                  fontSize: 22, fontWeight: FontWeight.bold),
                             ),
-
                           ],
                         ),
                         SizedBox( height: 5,),
                         Container(
+                          padding: EdgeInsets.symmetric(horizontal: 23),
                           width:MediaQuery.of(context).size.width / 1.4,
                           child: Text(
                             "$address ",maxLines: 1,overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w500,color: Colors.black87),
+                                fontSize: 18, fontWeight: FontWeight.w400,color: Colors.black87),
                           ),
                         ),
                       ],
