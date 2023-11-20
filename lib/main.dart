@@ -14,8 +14,6 @@ import 'package:meal_monkey/onboard/onboarding_screens.dart';
 import 'package:meal_monkey/screens/home_screen.dart';
 import 'package:meal_monkey/screens/login_page.dart';
 import 'package:meal_monkey/screens/register_page.dart';
-import 'package:meal_monkey/screens/splash_screen.dart';
-import 'package:meal_monkey/screens/splash_screen_main.dart';
 import 'package:meal_monkey/testing/home_screen.dart';
 import 'package:meal_monkey/widgets/nav_bar.dart';
 import 'package:provider/provider.dart';
@@ -88,10 +86,10 @@ class _MyAppState extends State<MyApp> {
                 ),
               );
             } else if (user.hasData) {
-              return   SplashScreenMain();
+              return   HomeScreen();
               //return const SellScreen();
             } else {
-              return  Splashscreen();
+              return  OnBoard();
             }
           })
     );

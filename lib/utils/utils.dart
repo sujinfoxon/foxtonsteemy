@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
+const String apiKey = "AIzaSyBCJTGfWjJu4J43O_jHDs8Xt3o_QfFV838";
+
 Color kblue = Color(0xFF4756DF);
 Color kwhite = Color(0xFFFFFFFF);
 Color kblack = Color(0xFF000000);
 Color kbrown300 = Color(0xFF8D6E63);
 Color kbrown = Color(0xFF795548);
 Color kgrey = Color(0xFFC0C0C0);
-
-
 
 pickImage(ImageSource source) async {
   final ImagePicker _imagePicker = ImagePicker();
