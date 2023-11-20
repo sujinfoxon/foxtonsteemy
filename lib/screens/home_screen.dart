@@ -36,26 +36,16 @@ class _HomeScreenState extends State<HomeScreen> {
   List _products = [];
   var _firestoreInstance = FirebaseFirestore.instance;
   fetchProducts() async {
-    QuerySnapshot qn = await _firestoreInstance.collection("Allproducts").get();
+    QuerySnapshot qn = await _firestoreInstance.collection("popular_foods").get();
     setState(() {
       for (int i = 0; i < qn.docs.length; i++) {
         _products.add({
-          "product-name": qn.docs[i]["product-name"],
-          "product-description": qn.docs[i]["product-description"],
-          "product-price": qn.docs[i]["product-price"],
           "product-img": qn.docs[i]["product-img"],
-          "discount-price": qn.docs[i]["discount-price"],
-          "offer-price": qn.docs[i]["offer-price"],
-          "product-review": qn.docs[i]["product-review"],
-          "brand": qn.docs[i]["brand"],
-          "manufacturer": qn.docs[i]["manufacturer"],
-          "size": qn.docs[i]["size"],
-          "moq": qn.docs[i]["moq"],
-          "origin": qn.docs[i]["origin"],
-          "disclaimer": qn.docs[i]["disclaimer"],
-          "vendor": qn.docs[i]["vendor"],
-
-
+          "product-price": qn.docs[i]["product-price"],
+          "product-description": qn.docs[i]["product-description"],
+          "product-calories": qn.docs[i]["product-calories"],
+          "product-volume": qn.docs[i]["product-volume"],
+          "product-name": qn.docs[i]["product-name"],
         });
       }
     });
@@ -334,15 +324,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(
-                height: 220,
+                height: 251,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
-                  itemCount: foods2.length,
+                  itemCount: _products.length,
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        Navigator.push(context,MaterialPageRoute(builder: (context) => ItemScreen()));
+
+                        Navigator.push(context,MaterialPageRoute(builder: (context) => ItemScreen(_products[index])));
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width / 1.4,
@@ -366,8 +357,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 topLeft: Radius.circular(10),
                                 topRight: Radius.circular(10),
                               ),
-                              child: Image.asset(
-                                "assets/${foods2[index]}.jpg",
+                              child: Image.network(
+                                _products[index]["product-img"][0],
                                 height: 120,
                                 width: MediaQuery.of(context).size.width / 1.4,
                                 fit: BoxFit.cover,
@@ -459,7 +450,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               topLeft: Radius.circular(10),
                                             )),
                                         child: Text(
-                                          "150₹",
+                                          _products[index]["product-price"],
                                           style: TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,

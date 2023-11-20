@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meal_monkey/screens/cart_screen.dart';
+import 'package:meal_monkey/widgets/favourite_page.dart';
 
 import '../screens/home_screen.dart';
 
@@ -15,7 +16,7 @@ class _NavBarRootsState extends State<NavBarRoots> {
   int _selectedIndex = 0;
   final _screens = [
     HomeScreen(),
-    Container(),
+    Favourite(),
     CartScreen(),
   ];
 

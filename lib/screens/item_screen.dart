@@ -1,15 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/text_field_widget.dart';
 
-class ItemScreen extends StatelessWidget {
-  const ItemScreen({super.key});
+class ItemScreen extends StatefulWidget {
+  var _product;
 
+  ItemScreen(this._product);
+
+  @override
+  State<ItemScreen> createState() => _ItemScreenState();
+}
+
+class _ItemScreenState extends State<ItemScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
+        title: Text(
+          widget._product['product-name'],
+          style: TextStyle(color: Colors.black, fontSize: 25),
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
@@ -22,21 +36,36 @@ class ItemScreen extends StatelessWidget {
             color: Colors.black45,
           ),
         ),
-        title: Text(
-          "Cheese Pizza",
-          style: TextStyle(color: Colors.black, fontSize: 25),
-        ),
         actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 10),
-            child: Icon(
-              Icons.favorite,
-              color: Color(0xFFFF2F08),
-              size: 26,
-            ),
-          )
+          StreamBuilder(
+            stream: FirebaseFirestore.instance.collection("users-favourite-items").doc(FirebaseAuth.instance.currentUser!.email)
+                .collection("items").where("name",isEqualTo: widget._product['product-name']).snapshots(),
+            builder: (BuildContext context, AsyncSnapshot snapshot){
+              if(snapshot.data==null){
+                return Text("User Cart Item is empty");
+              }
+              return Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: CircleAvatar(
+                  backgroundColor:  Color(0xFF282828),
+                  child: IconButton(
+                    onPressed: () => snapshot.data.docs.length==0?addToFavourite():print("Already Added"),
+                    icon: snapshot.data.docs.length==0? Icon(
+                      Icons.favorite_outline,
+                      color:Color(0xFFefcf18),
+                    ):Icon(
+                      Icons.favorite,
+                      color:Color(0xFFefcf18),
+                    ),
+                  ),
+                ),
+              );
+            },
+
+          ),
         ],
       ),
+
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -70,7 +99,7 @@ class ItemScreen extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.all(25),
-              child: Image.asset("assets/Pizza.png"),
+              child: Image.network(widget._product['product-img'][1]),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -88,7 +117,7 @@ class ItemScreen extends StatelessWidget {
                       height: 8,
                     ),
                     Text(
-                      "120",
+                      widget._product['product-calories'],
                       style:
                           TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                     ),
@@ -112,7 +141,7 @@ class ItemScreen extends StatelessWidget {
                       height: 8,
                     ),
                     Text(
-                      "12 inch",
+                      widget._product['product-volume'],
                       style:
                           TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                     ),
@@ -161,50 +190,88 @@ class ItemScreen extends StatelessWidget {
                             color: Colors.black45,
                             fontWeight: FontWeight.w500),
                       ),
-                      SizedBox(height: 8,),
+                      SizedBox(
+                        height: 8,
+                      ),
                       Row(
                         children: [
-                          Icon(Icons.add_circle_outline_rounded,color: Colors.black45,),
-                          SizedBox(width: 2,),
-                          Text("01",style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold),),
-                          SizedBox(width: 2,),
-                          Icon(CupertinoIcons.minus_circle,color: Colors.black45,),
-
+                          Icon(
+                            Icons.add_circle_outline_rounded,
+                            color: Colors.black45,
+                          ),
+                          SizedBox(
+                            width: 2,
+                          ),
+                          Text(
+                            "01",
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: 2,
+                          ),
+                          Icon(
+                            CupertinoIcons.minus_circle,
+                            color: Colors.black45,
+                          ),
                         ],
                       ),
-
                     ],
                   ),
                   Column(
                     children: [
-                      Text("Delivery",style: TextStyle(fontSize: 17,color: Colors.black45,fontWeight: FontWeight.w500),),
-                      SizedBox(height: 8,),
-                      Text("Express",style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: Colors.green),)
+                      Text(
+                        "Delivery",
+                        style: TextStyle(
+                            fontSize: 17,
+                            color: Colors.black45,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        "Express",
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green),
+                      )
                     ],
                   ),
                   Column(
                     children: [
-                      Text("Price",style: TextStyle(fontSize: 17,color: Colors.black45,fontWeight: FontWeight.w500),),
-                      SizedBox(height: 8,),
-                      Text("400₹",style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: Color(0xFFFF2F08),),)
+                      Text(
+                        "Price",
+                        style: TextStyle(
+                            fontSize: 17,
+                            color: Colors.black45,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        widget._product['product-price'],
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFFFF2F08),
+                        ),
+                      )
                     ],
                   ),
                 ],
               ),
             ),
-
           ],
-          
         ),
-        
       ),
       bottomNavigationBar: InkWell(
-        onTap: (){
-
-        },
+        onTap: () {},
         child: Container(
           height: 60,
-          margin: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
+          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           padding: EdgeInsets.symmetric(vertical: 20),
           decoration: BoxDecoration(
             color: Color(0xFFFF2F08),
@@ -213,15 +280,42 @@ class ItemScreen extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Add to Cart",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.white),),
-              SizedBox(width: 10,),
+              Text(
+                "Add to Cart",
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+              SizedBox(
+                width: 10,
+              ),
               Icon(
-                Icons.add_circle_outline_rounded,color: Colors.white,size: 20,
+                Icons.add_circle_outline_rounded,
+                color: Colors.white,
+                size: 20,
               )
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future addToFavourite() async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    var currentUser = _auth.currentUser;
+    CollectionReference _collectionRef =
+    FirebaseFirestore.instance.collection("users-favourite-items");
+    return _collectionRef
+        .doc(currentUser!.email)
+        .collection("items")
+        .doc()
+        .set({
+      "name": widget._product["product-name"],
+      "price": widget._product["product-price"],
+      "images": widget._product["product-img"],
+
+    }).then((value) => print("Added to favourite"));
   }
 }
