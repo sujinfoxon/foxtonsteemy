@@ -73,7 +73,7 @@ class _ItemScreenState extends State<ItemScreen> {
               height: 10,
             ),
             Text(
-              "Mixed Pizza with beef, chilli and cheese",
+              widget._product['product-description'],
               style: TextStyle(color: Colors.black45, fontSize: 17),
               textAlign: TextAlign.center,
             ),

@@ -372,7 +372,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        foods2[index],
+                                        _products[index]["product-name"],
                                         style: TextStyle(
                                             fontSize: 17,
                                             fontWeight: FontWeight.bold),
