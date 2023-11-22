@@ -8,6 +8,7 @@ import 'package:lottie/lottie.dart';
 import 'package:get/get.dart';
 
 import 'package:meal_monkey/screens/register_page.dart';
+import 'package:meal_monkey/widgets/nav_bar.dart';
 import '../authentication/firebase_authentication/auth_service.dart';
 import '../firebase/service/database_services.dart';
 import '../widgets/text_field_widget.dart';
@@ -151,7 +152,7 @@ body:_isLoading ? Center(child:  SpinKitCubeGrid(
         if(value == true){
      QuerySnapshot snapshot =     await DatabaseService(uid: FirebaseAuth.instance.currentUser!.uid).gettingUserData(email);
 
-          Get.to(HomeScreen());
+          Get.to(NavBarRoots());
 
         }else{
           showSnackbar(context, value, Colors.red);

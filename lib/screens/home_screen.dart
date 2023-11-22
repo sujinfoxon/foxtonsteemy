@@ -94,6 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
     showDialog(context: context, builder:(context)=>CupertinoAlertDialog(
       title: Text("No Internet"),
       content: Text("Please check your internet connection"),
+
       actions: [
         CupertinoButton.filled(child: Text("Retry"), onPressed:(){}),
       ],

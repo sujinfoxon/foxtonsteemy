@@ -2,7 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 
+import '../widgets/nav_bar.dart';
 import '../widgets/text_field_widget.dart';
 
 class ItemScreen extends StatefulWidget {
@@ -29,7 +32,7 @@ class _ItemScreenState extends State<ItemScreen> {
         centerTitle: true,
         leading: InkWell(
           onTap: () {
-            Navigator.pop(context);
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NavBarRoots()));
           },
           child: Icon(
             Icons.arrow_back_ios,
@@ -184,7 +187,7 @@ class _ItemScreenState extends State<ItemScreen> {
                   Column(
                     children: [
                       Text(
-                        "Order",
+                        "From",
                         style: TextStyle(
                             fontSize: 17,
                             color: Colors.black45,
@@ -193,28 +196,10 @@ class _ItemScreenState extends State<ItemScreen> {
                       SizedBox(
                         height: 8,
                       ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.add_circle_outline_rounded,
-                            color: Colors.black45,
-                          ),
-                          SizedBox(
-                            width: 2,
-                          ),
-                          Text(
-                            "01",
-                            style: TextStyle(
-                                fontSize: 17, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            width: 2,
-                          ),
-                          Icon(
-                            CupertinoIcons.minus_circle,
-                            color: Colors.black45,
-                          ),
-                        ],
+                      Text(
+                        "TAJ Hotel",
+                        style: TextStyle(
+                            fontSize: 17, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -268,7 +253,9 @@ class _ItemScreenState extends State<ItemScreen> {
         ),
       ),
       bottomNavigationBar: InkWell(
-        onTap: () {},
+        onTap: () {
+          addToCart();
+        },
         child: Container(
           height: 60,
           margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -317,5 +304,28 @@ class _ItemScreenState extends State<ItemScreen> {
       "images": widget._product["product-img"],
 
     }).then((value) => print("Added to favourite"));
+  }
+
+  Future addToCart() async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    var currentUser = _auth.currentUser;
+    CollectionReference _collectionRef =
+    FirebaseFirestore.instance.collection("users-cart-items");
+    return _collectionRef
+        .doc(currentUser!.email)
+        .collection("items")
+        .doc()
+        .set({
+      "name": widget._product["product-name"],
+      "price": widget._product["product-price"],
+      "images": widget._product["product-img"],
+    }).then((value) =>
+        Get.snackbar(' Cart', 'Product Added to Cart Successfully',
+          colorText: Color(0xFFefcf18),
+          duration: Duration(seconds: 3),
+          backgroundColor: Color(0xFF282828),
+          snackPosition: SnackPosition.TOP
+        ),
+    );
   }
 }
