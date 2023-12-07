@@ -2,8 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:meal_monkey/widgets/ratings_screen.dart';
+import 'package:meal_monkey/widgets/user_reviw_card.dart';
 
 import '../widgets/nav_bar.dart';
 import '../widgets/text_field_widget.dart';
@@ -249,6 +252,64 @@ class _ItemScreenState extends State<ItemScreen> {
                 ],
               ),
             ),
+SizedBox(height: 20,),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+
+                      Text(
+                        "Reviews & Ratings",
+                        style: TextStyle(
+                            fontSize: 22, color: Colors.black54, fontWeight: FontWeight.bold),
+                      ),
+                      Container(
+
+                        height: 35,
+                        child: ElevatedButton(
+
+                          onPressed: () {
+
+                          },
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                              primary: Colors.blue),
+                          child: Text(
+                            "Rate Item",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+
+                    ],
+                  ),
+                  SizedBox(height: 10,),
+                  Text("Ratings and reviews are verified and are from who use the same type of device that you use.",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),),
+                  SizedBox(height: 20,),
+                  overall_rating(),
+                  RatingBarIndicator(
+                      rating: 4.5,
+                      itemSize: 20,
+                      itemBuilder:(_,__)=>Icon(Icons.star,color: Color(0xFFefcf18),)),
+                  Text("(12,611)",style: TextStyle(fontSize: 20),),
+                  SizedBox(height: 25,),
+                  UserReviewCard(),
+                  SizedBox(height: 20,),
+                  UserReviewCard(),
+                  SizedBox(height: 20,),
+                  UserReviewCard(),
+                  SizedBox(height: 20,),
+                  UserReviewCard(),
+                  SizedBox(height: 20,),
+                  UserReviewCard(),
+                ],
+              ),
+            )
           ],
         ),
       ),

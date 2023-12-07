@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:meal_monkey/UI/allStores.dart';
 import 'package:meal_monkey/screens/cart_screen.dart';
+import 'package:meal_monkey/screens/favourite_screen.dart';
 import 'package:meal_monkey/testing/cart_test.dart';
 import 'package:meal_monkey/widgets/favourite_page.dart';
 
@@ -17,8 +19,9 @@ class _NavBarRootsState extends State<NavBarRoots> {
   int _selectedIndex = 0;
   final _screens = [
     HomeScreen(),
-    Favourite(),
+    FavouriteScreen(),
     CartScreen(),
+    AllStores()
   ];
 
   @override

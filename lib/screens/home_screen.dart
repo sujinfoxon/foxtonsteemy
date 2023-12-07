@@ -317,7 +317,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           "See All",
                           style: TextStyle(
                               color: Color(0xFFefcf18),
-                              fontSize: 17,
+                              fontSize: 22,
                               fontWeight: FontWeight.bold),
                         )),
                   ],
@@ -476,7 +476,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Restaurants",
+                      "Popular Restaurants",
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
                     ),
                     TextButton(
@@ -601,6 +601,155 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                             Text(
                                               "5 kM",
+                                              style: TextStyle(
+                                                  color: Colors.black45,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+
+                                    ],
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Restaurants",
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(context,MaterialPageRoute(builder: (context) =>ResTabBar()));
+                        },
+                        child: Text(
+                          "See All",
+                          style: TextStyle(
+                              color: Color(0xFFefcf18),
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold),
+                        )),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 220,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemCount: _products.length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+
+                        Navigator.push(context,MaterialPageRoute(builder: (context) => ItemScreen(_products[index])));
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width / 1.4,
+                        margin: EdgeInsets.only(
+                            left: 15, top: 5, bottom: 5, right: 5),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 4,
+                                spreadRadius: 2,
+                              )
+                            ]),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10),
+                              ),
+                              child: Image.network(
+                                _products[index]["product-img"][0],
+                                height: 120,
+                                width: MediaQuery.of(context).size.width / 1.4,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        _products[index]["product-name"],
+                                        style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.star,
+                                            color: Color(0xFFFF2F08),
+                                            size: 20,
+                                          ),
+                                          SizedBox(
+                                            width: 2,
+                                          ),
+                                          Text(
+                                            "4.7",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            "(941 Ratings)",
+                                            style:
+                                            TextStyle(color: Colors.black45),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(8),
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.location_on,
+                                              color: Color(0xFFFF2F08),
+                                              size: 20,
+                                            ),
+                                            SizedBox(
+                                              width: 2,
+                                            ),
+                                            Text(
+                                              "1 kM",
                                               style: TextStyle(
                                                   color: Colors.black45,
                                                   fontWeight: FontWeight.w500),

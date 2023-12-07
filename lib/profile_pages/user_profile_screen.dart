@@ -4,10 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:meal_monkey/authentication/authmethods.dart';
 import 'package:meal_monkey/screens/login_page.dart';
 import 'package:meal_monkey/widgets/nav_bar.dart';
 
 import '../utils/utils.dart';
+import 'address_page.dart';
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
 
@@ -16,6 +18,7 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
+  bool _isLoading = false;
   Uint8List? _image;
   void selectImage() async {
     Uint8List im = await pickImage(ImageSource.gallery);
@@ -58,7 +61,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               children: [
                 Text("MyProfile",style: TextStyle(fontSize: 30,fontWeight: FontWeight.w500),),
                 TextButton(onPressed: (){
-                  Navigator.push(context,MaterialPageRoute(builder: (context)=>NavBarRoots()));
+
                 }, child:Text("Save",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),))
               ],
             ),
@@ -95,10 +98,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               leading: Container(
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.blue.shade100,
+                  color: Color(0xFF282828),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(CupertinoIcons.person,color: Colors.blue,size: 35,),
+                child: Icon(CupertinoIcons.person,color: Color(0xFFefcf18),size: 35,),
               ),
               title: Text("My Account",style: TextStyle(fontWeight: FontWeight.w500,
               fontSize: 20),),
@@ -106,16 +109,18 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
             Divider(height: 30,),
             ListTile(
-              onTap: (){},
+              onTap: (){
+                Navigator.push(context,MaterialPageRoute(builder:(context)=>UserAddressScreen()));
+              },
               leading: Container(
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.blue.shade100,
+                  color: Color(0xFF282828),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(CupertinoIcons.house_fill,color: Colors.blue,size: 35,),
+                child: Icon(CupertinoIcons.house_fill,color: Color(0xFFefcf18),size: 35,),
               ),
-              title: Text("Address share edit,Add Address",style: TextStyle(fontWeight: FontWeight.w500,
+              title: Text("Address",style: TextStyle(fontWeight: FontWeight.w500,
                   fontSize: 20),),
               trailing: Icon(Icons.arrow_forward_ios_rounded),
             ),
@@ -126,10 +131,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               leading: Container(
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.blue.shade100,
+                  color: Color(0xFF282828),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(CupertinoIcons.gift_fill,color: Colors.blue,size: 35,),
+                child: Icon(CupertinoIcons.gift_fill,color: Color(0xFFefcf18),size: 35,),
               ),
               title: Text("Gift Cards",style: TextStyle(fontWeight: FontWeight.w500,
                   fontSize: 20),),
@@ -142,10 +147,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               leading: Container(
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.blue.shade100,
+                  color: Color(0xFF282828),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(Icons.support_agent,color: Colors.blue,size: 35,),
+                child: Icon(Icons.support_agent,color: Color(0xFFefcf18),size: 35,),
               ),
               title: Text(""
                   "Help",style: TextStyle(fontWeight: FontWeight.w500,
@@ -209,5 +214,24 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   }
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
+  }
+  void saveProfile() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String res = await AuthMethods().signUpUser(
+
+      file: _image!,
+    );
+    if (res != "success") {
+      showSnackBar(res, context);
+    } else {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>
+     NavBarRoots()));
+    }
+    setState(()
+    {
+      _isLoading = false;
+    });
   }
 }

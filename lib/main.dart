@@ -16,6 +16,7 @@ import 'package:meal_monkey/screens/login_page.dart';
 import 'package:meal_monkey/screens/register_page.dart';
 import 'package:meal_monkey/testing/home_screen.dart';
 import 'package:meal_monkey/widgets/nav_bar.dart';
+import 'package:meal_monkey/widgets/ratings_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 int? isviewed;
@@ -86,7 +87,7 @@ class _MyAppState extends State<MyApp> {
                 ),
               );
             } else if (user.hasData) {
-              return   HomeScreen();
+              return NavBarRoots();
               //return const SellScreen();
             } else {
               return  OnBoard();

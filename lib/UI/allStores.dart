@@ -29,7 +29,7 @@ class _AllStoresState extends State<AllStores> {
       );
       var distance = distanceImMeter?.round().toInt();
 
-      data.allstores[i]['distance'] = (distance! / 100);
+      data.allstores[i]['distance'] = (distance! / 1000);
       setState(() {});
     }
   }
