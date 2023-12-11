@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -288,7 +289,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               fullName, email, password, phone, address)
           .then((value) async {
         if (value == true) {
-          Get.to(HomeScreen());
+          Get.to(HomeScreen( uid: FirebaseAuth.instance.currentUser!.uid));
         } else {
           showSnackbar(context, value, Colors.red);
           setState(() {

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meal_monkey/UI/allStores.dart';
@@ -18,7 +19,7 @@ class NavBarRoots extends StatefulWidget {
 class _NavBarRootsState extends State<NavBarRoots> {
   int _selectedIndex = 0;
   final _screens = [
-    HomeScreen(),
+    HomeScreen( uid: FirebaseAuth.instance.currentUser!.uid),
     FavouriteScreen(),
     CartScreen(),
     AllStores()

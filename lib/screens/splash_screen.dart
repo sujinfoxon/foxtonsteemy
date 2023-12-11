@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meal_monkey/onboard/onboarding_screens.dart';
 import 'package:meal_monkey/screens/register_page.dart';
+import 'package:page_transition/page_transition.dart';
 
 
 class Splashscreen extends StatefulWidget {
@@ -19,7 +20,10 @@ class _SplashscreenState extends State<Splashscreen> {
     Timer(
         Duration(seconds: 3),
             () => Navigator.push(
-            context, CupertinoPageRoute(builder: (_) => OnBoard())));
+                context,
+                PageTransition(
+                    type: PageTransitionType.fade,
+                    child: OnBoard())));
     // TODO: implement initState
     super.initState();
   }

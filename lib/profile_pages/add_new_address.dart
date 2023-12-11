@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meal_monkey/widgets/login_form.dart';
 
 import '../widgets/text_field_widget.dart';
 class AddnewAddressScreen extends StatefulWidget {
@@ -38,82 +39,27 @@ class _AddnewAddressScreenState extends State<AddnewAddressScreen> {
             key: _formkey,
             child: Column(
               children: [
-                TextFormField(
-                  decoration:textInputDecoration.copyWith(
-                      labelText: "Email",
-                      labelStyle: TextStyle(color: Colors.white),
-                      prefixIcon: Icon(Icons.email,color: Color(0xFFefcf18),)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  width: 200,
+                  child: TextFormField(
+                  decoration: InputDecoration(
+                  hintText: "Email"
                   ),
-                  onChanged: (val){
-                    setState(() {
-                      email = val;
-                      print(email);
-                    });
-                  },
-                  validator: (value){
-                    return RegExp(
-                        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                        .hasMatch(value!) ? null : "Please enter the valid email";
-                  },
+          ),
                 ),
-                SizedBox(height: 15,),
-                TextFormField(
-                  decoration:textInputDecoration.copyWith(
-                      labelText: "Email",
-                      labelStyle: TextStyle(color: Colors.white),
-                      prefixIcon: Icon(Icons.email,color: Color(0xFFefcf18),)
+                Container(
+                  width: 200,
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                        hintText: "Email"
+                    ),
                   ),
-                  onChanged: (val){
-                    setState(() {
-                      email = val;
-                      print(email);
-                    });
-                  },
-                  validator: (value){
-                    return RegExp(
-                        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                        .hasMatch(value!) ? null : "Please enter the valid email";
-                  },
                 ),
-                SizedBox(height: 15,),
-                TextFormField(
-                  decoration:textInputDecoration.copyWith(
-                      labelText: "Email",
-                      labelStyle: TextStyle(color: Colors.white),
-                      prefixIcon: Icon(Icons.email,color: Color(0xFFefcf18),)
-                  ),
-                  onChanged: (val){
-                    setState(() {
-                      email = val;
-                      print(email);
-                    });
-                  },
-                  validator: (value){
-                    return RegExp(
-                        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                        .hasMatch(value!) ? null : "Please enter the valid email";
-                  },
-                ),
-                SizedBox(height: 15,),
-                TextFormField(
-                  decoration:textInputDecoration.copyWith(
-                      labelText: "Email",
-                      labelStyle: TextStyle(color: Colors.white),
-                      prefixIcon: Icon(Icons.email,color: Color(0xFFefcf18),)
-                  ),
-                  onChanged: (val){
-                    setState(() {
-                      email = val;
-                      print(email);
-                    });
-                  },
-                  validator: (value){
-                    return RegExp(
-                        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                        .hasMatch(value!) ? null : "Please enter the valid email";
-                  },
-                ),
-                SizedBox(height: 15,),
+              ],
+            ),
                 Container(
                   width: double.infinity,
                   height: 50,

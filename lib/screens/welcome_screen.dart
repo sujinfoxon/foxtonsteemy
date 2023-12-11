@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'home_screen.dart';
@@ -39,7 +40,7 @@ class WelcomeScreen extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.push(context,MaterialPageRoute(builder: (context) => HomeScreen()));
+              Navigator.push(context,MaterialPageRoute(builder: (context) => HomeScreen( uid: FirebaseAuth.instance.currentUser!.uid,)));
 
             },
             child: Container(

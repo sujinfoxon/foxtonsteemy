@@ -23,3 +23,7 @@ showSnackBar(String content, BuildContext context) {
   ScaffoldMessenger.of(context)
       .showSnackBar(SnackBar(content: Text(content)));
 }
+const Color login_bg = Color(0xff00C470);
+const Color signup_bg = Color(0xff000a54);
+const double defaultPadding = 16.0;
+const Duration defaultDuration = Duration(milliseconds: 300);

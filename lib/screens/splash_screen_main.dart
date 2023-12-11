@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meal_monkey/screens/home_screen.dart';
 import 'package:meal_monkey/widgets/nav_bar.dart';
+import 'package:page_transition/page_transition.dart';
 
 
 class SplashScreenMain extends StatefulWidget {
@@ -18,8 +20,11 @@ class _SplashScreenMainState extends State<SplashScreenMain> {
   void initState() {
     Timer(
         Duration(seconds: 3),
-            () => Navigator.push(
-            context, CupertinoPageRoute(builder: (_) => NavBarRoots())));
+            () =>Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.fade,
+                    child: NavBarRoots())));
     // TODO: implement initState
     super.initState();
   }

@@ -4,7 +4,7 @@
     <application
         android:label="Steemy"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCU58UbWYWN06MaVh9gv_xUb5duTUUlhrY"/>
         <activity
             android:name=".MainActivity"

@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:meal_monkey/Advanced/screens/login_screen.dart';
 import 'package:meal_monkey/onboard/onboard_model.dart';
 import 'package:meal_monkey/screens/login_page.dart';
 import 'package:meal_monkey/screens/register_page.dart';
@@ -18,26 +19,26 @@ class _OnBoardState extends State<OnBoard> {
   late PageController _pageController;
   List<OnboardModel> screens = <OnboardModel>[
     OnboardModel(
-      img: 'assets/Cheese Pizza.jpg',
-      text: "Belajar Dengan Metode Learning by Doing",
+      img: 'assets/onboard1.png',
+      text: "Food . Instamart",
       desc:
-      "Sebuah metode belajar yang terbuktiampuh dalam meningkatkan produktifitas belajar, Learning by Doing",
+      "Upto 40% Offer On Orders",
       bg: Colors.white,
       button: Color(0xFF4756DF),
     ),
     OnboardModel(
-      img: 'assets/boy.png',
-      text: "Dapatkan Kemudahan Akses Kapanpun dan Dimanapun",
+      img: 'assets/onboard2.png',
+      text: "Order From Top Restaurant",
       desc:
-      "Tidak peduli dimanapun kamu, semua kursus yang telah kamu ikuti bias kamu akses sepenuhnya",
-      bg: Color(0xFF4756DF),
+      "Choose your favorite food \nfrom your favorite restaurant",
+      bg: Colors.white,
       button: Colors.white,
     ),
     OnboardModel(
-      img: 'assets/Cheese Pizza.jpg',
-      text: "Gunakan Fitur Kolaborasi Untuk Pengalaman Lebih",
+      img: 'assets/onboard3.jpg',
+      text: "Get Delivery at Your Door Step",
       desc:
-      "Tersedia fitur Kolaborasi dengan tujuan untuk mengasah skill lebih dalam karena bias belajar bersama",
+      "Prepared by food experts, Enjoy \nwith everyone together.",
       bg: Colors.white,
       button: Color(0xFF4756DF),
     ),
@@ -66,21 +67,24 @@ class _OnBoardState extends State<OnBoard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: currentIndex % 2 == 0 ? kwhite : kblue,
+      backgroundColor: kwhite ,
       appBar: AppBar(
-        backgroundColor: currentIndex % 2 == 0 ? kwhite : kblue,
+        backgroundColor:  kwhite ,
         elevation: 0.0,
         actions: [
           TextButton(
             onPressed: () {
               _storeOnboardInfo();
               Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => LoginPage()));
+                  context, MaterialPageRoute(builder: (context) => LoginScreen()));
             },
-            child: Text(
-              "Skip",
-              style: TextStyle(
-                color: currentIndex % 2 == 0 ? kblack : kwhite,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Skip",
+                style: TextStyle(
+                  color:  kblack ,fontSize: 22,fontWeight: FontWeight.w500
+                ),
               ),
             ),
           )
@@ -120,8 +124,8 @@ class _OnBoardState extends State<OnBoard> {
                                 height: 8,
                                 decoration: BoxDecoration(
                                   color: currentIndex == index
-                                      ? kbrown
-                                      : kbrown300,
+                                      ? Color(0xffEFCF18)
+                                      : Color(0xff282828),
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
                               ),
@@ -136,16 +140,18 @@ class _OnBoardState extends State<OnBoard> {
                       fontSize: 27.0,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Poppins',
-                      color: index % 2 == 0 ? kblack : kwhite,
+                      color:  kblack,
                     ),
                   ),
+                  Divider(color: Colors.black,height: 1,),
                   Text(
                     screens[index].desc,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 14.0,
+                      fontSize: 20,
                       fontFamily: 'Montserrat',
-                      color: index % 2 == 0 ? kblack : kwhite,
+                      color: kblack ,
+                      fontWeight: FontWeight.w500
                     ),
                   ),
                   InkWell(
@@ -154,7 +160,7 @@ class _OnBoardState extends State<OnBoard> {
                       if (index == screens.length - 1) {
                         await _storeOnboardInfo();
                         Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) => LoginPage()));
+                            MaterialPageRoute(builder: (context) => LoginScreen()));
                       }
 
                       _pageController.nextPage(
@@ -166,19 +172,19 @@ class _OnBoardState extends State<OnBoard> {
                       padding:
                       EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
                       decoration: BoxDecoration(
-                          color: index % 2 == 0 ? kblue : kwhite,
+                          color: Color(0xff282828),
                           borderRadius: BorderRadius.circular(15.0)),
                       child: Row(mainAxisSize: MainAxisSize.min, children: [
                         currentIndex == 2 ?   Text(
-                        "Finish",
+                        "Get Started",
                         style: TextStyle(
-                            fontSize: 16.0,
-                            color: index % 2 == 0 ? kwhite : kblue),
+                            fontSize: 20,
+                            color: Color(0xffEFCF18)),
                       ) : Text(
                         "Next",
                         style: TextStyle(
-                            fontSize: 16.0,
-                            color: index % 2 == 0 ? kwhite : kblue),
+                            fontSize: 18,
+                            color: Color(0xffEFCF18)),
                       ),
 
                         SizedBox(
@@ -186,7 +192,7 @@ class _OnBoardState extends State<OnBoard> {
                         ),
                         Icon(
                           Icons.arrow_forward_sharp,
-                          color: index % 2 == 0 ? kwhite : kblue,
+                          color:Color(0xffEFCF18),
                         )
                       ]),
                     ),

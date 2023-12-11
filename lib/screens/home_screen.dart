@@ -16,14 +16,41 @@ import '../firebase/offer slider/offer_slider.dart';
 import '../widgets/tab_controller.dart';
 import 'package:image_picker/image_picker.dart';
 class HomeScreen extends StatefulWidget {
-
-  const HomeScreen({super.key});
+  final String uid;
+ HomeScreen({super.key,required this.uid});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  var userData = {};
+  bool isLoading = false;
+
+  getData() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      var userSnap = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.uid)
+          .get();
+
+      // get post lENGTH
+
+
+
+      userData = userSnap.data()!;
+
+      setState(() {});
+    } catch (e) {
+
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
   Uint8List? _image;
   void selectImage() async {
     Uint8List im = await pickImage(ImageSource.gallery);
@@ -56,6 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String address = '';
   @override
   void initState() {
+    getData();
     startStreaming();
     super.initState();
     fetchProducts();
@@ -120,7 +148,10 @@ class _HomeScreenState extends State<HomeScreen> {
       Color(0xFFFAE6D5),
       Color(0xFFEFCFE7),
     ];
-    return Scaffold(
+    return isLoading
+        ? const Center(
+      child: CircularProgressIndicator(),
+    ): Scaffold(
 
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -154,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: Color(0xFFFF5208),
                             ),
                             Text(
-                              "$name ,",
+                              userData['username'],
                               style: TextStyle(
                                   fontSize: 22, fontWeight: FontWeight.bold),
                             ),
@@ -165,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: EdgeInsets.symmetric(horizontal: 23),
                           width:MediaQuery.of(context).size.width / 1.4,
                           child: Text(
-                            "$address ",maxLines: 1,overflow: TextOverflow.ellipsis,
+                            userData['address'],maxLines: 1,overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w400,color: Colors.black87),
                           ),
@@ -173,18 +204,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     GestureDetector(
-                      onTap: (){Navigator.push(context,MaterialPageRoute(builder: (context)=>UserProfileScreen()));},
+                      onTap: (){Navigator.push(context,MaterialPageRoute(builder: (context)=>UserProfileScreen(uid: FirebaseAuth.instance.currentUser!.uid)));},
                       child: Stack(
                         children: [
                           Stack(
                             children: [
-                              _image != null
-                                  ? CircleAvatar(
-                                radius:30,
-                                  backgroundImage: MemoryImage(_image!))
-                                  : const CircleAvatar(
-                                  radius:30,
-                                backgroundImage: NetworkImage("https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-370-456322-512.png")
+                              CircleAvatar(
+                                backgroundColor: Colors.grey,
+                                backgroundImage: NetworkImage(
+                                  userData['photoUrl'],
+                                ),
+                                radius: 30,
                               ),
 
                             ],
