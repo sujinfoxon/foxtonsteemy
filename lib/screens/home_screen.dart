@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:meal_monkey/firebase/datas/userdata.dart';
 import 'package:meal_monkey/profile_pages/user_profile_screen.dart';
 import 'package:meal_monkey/screens/category_screen.dart';
@@ -60,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   List _products = [];
+  List _Hotels = [];
   var _firestoreInstance = FirebaseFirestore.instance;
   fetchProducts() async {
     QuerySnapshot qn = await _firestoreInstance.collection("popular_foods").get();
@@ -78,29 +80,32 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return qn.docs;
   }
+  fetchHotels() async {
+    QuerySnapshot qn = await _firestoreInstance.collection("restaurants").get();
+    setState(() {
+      for (int i = 0; i < qn.docs.length; i++) {
+        _Hotels.add({
+          "hotel-img": qn.docs[i]["hotel-img"],
+          "hotel-name": qn.docs[i]["hotel-name"],
+          "hotel-type": qn.docs[i]["hotel-type"],
+        });
+      }
+    });
 
-  String name = '';
-  String address = '';
+    return qn.docs;
+  }
+
   @override
   void initState() {
+    fetchHotels();
     getData();
     startStreaming();
     super.initState();
     fetchProducts();
     // Get the current user ID.
-    final userID = FirebaseAuth.instance.currentUser?.uid;
 
     // Get the current user document from Firestore.
-    final userDoc = FirebaseFirestore.instance.collection('users').doc(userID);
 
-    // Get the data from the current user document.
-    userDoc.get().then((doc) {
-      // Set the name and email state variables.
-      setState(() {
-        name = doc['fullName'];
-       address = doc['phone'];
-      });
-    });
   }
 
   late ConnectivityResult result;
@@ -149,9 +154,12 @@ class _HomeScreenState extends State<HomeScreen> {
       Color(0xFFEFCFE7),
     ];
     return isLoading
-        ? const Center(
-      child: CircularProgressIndicator(),
-    ): Scaffold(
+        ? Center(
+          child: const SpinKitCubeGrid(
+      color: Color(0xFFefcf18),
+      size: 50.0,
+    ),
+        ): Scaffold(
 
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -347,7 +355,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           "See All",
                           style: TextStyle(
                               color: Color(0xFFefcf18),
-                              fontSize: 22,
+                              fontSize: 17,
                               fontWeight: FontWeight.bold),
                         )),
                   ],
@@ -710,7 +718,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 topRight: Radius.circular(10),
                               ),
                               child: Image.network(
-                                _products[index]["product-img"][0],
+                                _Hotels[index]["hotel-img"],
                                 height: 120,
                                 width: MediaQuery.of(context).size.width / 1.4,
                                 fit: BoxFit.cover,
@@ -725,10 +733,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        _products[index]["product-name"],
+                                        _Hotels[index]["hotel-name"],
                                         style: TextStyle(
                                             fontSize: 17,
                                             fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        _Hotels[index]["hotel-type"],
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500),
                                       ),
                                       SizedBox(
                                         height: 5,
@@ -759,7 +773,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             "(941 Ratings)",
                                             style:
                                             TextStyle(color: Colors.black45),
-                                          )
+                                          ),
+                                          SizedBox(height:5)
                                         ],
                                       )
                                     ],

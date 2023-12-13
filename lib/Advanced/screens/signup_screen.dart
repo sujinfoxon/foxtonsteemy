@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meal_monkey/Advanced/components/page_title_bar.dart';
 import 'package:meal_monkey/Advanced/components/under_part.dart';
@@ -61,8 +62,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       file: _image!,
     );
     if (res != "success") {
-      Navigator.push(context,MaterialPageRoute(builder: (context)=>NavBarRoots()));
-
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => NavBarRoots()));
     } else {
       showSnackBar(res, context);
     }
@@ -151,16 +152,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 controller: _passwordController,
                               ),
                               Container(
-                                child:_isLoading? const Center(
-                                  child: CircularProgressIndicator(
-                                    color: Colors.blue,
-                                  ),
-                                )
+                                child: _isLoading
+                                    ? const Center(
+                                        child: SpinKitThreeBounce(
+                                        color: Color(0xFFefcf18),
+                                      ))
                                     : RoundedButton(
-                                    text: 'REGISTER',
-                                    press: () {
-                                      signUpUser();
-                                    }),
+                                        text: 'REGISTER',
+                                        press: () {
+                                          signUpUser();
+                                        }),
                               ),
                               const SizedBox(
                                 height: 10,

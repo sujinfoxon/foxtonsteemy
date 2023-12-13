@@ -1,14 +1,48 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:readmore/readmore.dart';
 class UserReviewCard extends StatefulWidget {
-  const UserReviewCard({super.key});
+  final String uid;
+ UserReviewCard({super.key, required this.uid});
 
   @override
   State<UserReviewCard> createState() => _UserReviewCardState();
 }
 
 class _UserReviewCardState extends State<UserReviewCard> {
+  var userData = {};
+  bool isLoading = false;
+  getData() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      var userSnap = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.uid)
+          .get();
+
+      // get post lENGTH
+
+
+
+      userData = userSnap.data()!;
+
+      setState(() {});
+    } catch (e) {
+
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+  @override
+  void initState() {
+    getData();
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -19,10 +53,12 @@ class _UserReviewCardState extends State<UserReviewCard> {
             Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: AssetImage("assets/profile.jpg"),
+                  backgroundImage: NetworkImage(
+                    userData['photoUrl'],
+                  ),
                 ),
                 SizedBox(width: 10,),
-                Text("Anisha",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),
+                Text( userData['username'],style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),
 
               ],
             ),

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:meal_monkey/Advanced/components/page_title_bar.dart';
 import 'package:meal_monkey/Advanced/components/under_part.dart';
 import 'package:meal_monkey/Advanced/components/upside.dart';
@@ -102,9 +103,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               Container(
                                 child: _isLoading
                                     ? const Center(
-                                        child: CircularProgressIndicator(
-                                          color: Colors.blue,
-                                        ),
+                                        child: SpinKitThreeBounce(
+                                          color: Color(0xFFefcf18),
+
+                                        )
                                       )
                                     : RoundedButton(
                                         text: 'LOGIN',

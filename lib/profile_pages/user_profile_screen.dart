@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meal_monkey/Advanced/screens/login_screen.dart';
 import 'package:meal_monkey/authentication/authmethods.dart';
@@ -55,34 +56,21 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       _image = im;
     });
   }
-  String name = '';
-  String address = '';
-  String phone = '';
+
   @override
   void initState() {
     getData();
     super.initState();
-    // Get the current user ID.
-    final userID = FirebaseAuth.instance.currentUser?.uid;
 
-    // Get the current user document from Firestore.
-    final userDoc = FirebaseFirestore.instance.collection('users').doc(userID);
-
-    // Get the data from the current user document.
-    userDoc.get().then((doc) {
-      // Set the name and email state variables.
-      setState(() {
-        name = doc['fullName'];
-        address = doc['phone'];
-        address = doc['address'];
-      });
-    });
   }
   @override
   Widget build(BuildContext context) {
     return  isLoading
         ? const Center(
-      child: CircularProgressIndicator(),
+      child: const SpinKitCubeGrid(
+        color: Color(0xFFefcf18),
+        size: 50.0,
+      ),
     ):Scaffold(
        appBar: AppBar(
 

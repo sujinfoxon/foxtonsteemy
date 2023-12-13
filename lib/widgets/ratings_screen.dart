@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:meal_monkey/widgets/user_reviw_card.dart';
@@ -38,15 +39,15 @@ class _Ratings_screenState extends State<Ratings_screen> {
                   itemBuilder:(_,__)=>Icon(Icons.star,color: Color(0xFFefcf18),)),
             Text("(12,611)",style: TextStyle(fontSize: 20),),
               SizedBox(height: 25,),
-              UserReviewCard(),
+              UserReviewCard(uid: FirebaseAuth.instance.currentUser!.uid),
               SizedBox(height: 20,),
-              UserReviewCard(),
+              UserReviewCard(uid: FirebaseAuth.instance.currentUser!.uid),
               SizedBox(height: 20,),
-              UserReviewCard(),
+              UserReviewCard(uid: FirebaseAuth.instance.currentUser!.uid),
               SizedBox(height: 20,),
-              UserReviewCard(),
+              UserReviewCard(uid: FirebaseAuth.instance.currentUser!.uid),
               SizedBox(height: 20,),
-              UserReviewCard(),
+              UserReviewCard(uid: FirebaseAuth.instance.currentUser!.uid),
             ],
           ),
         ),

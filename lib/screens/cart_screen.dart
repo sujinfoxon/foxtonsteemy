@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -99,16 +100,15 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff949494),
-      appBar: AppBar(
-        backgroundColor: Color(0xff949494),
-        centerTitle: true,
-        automaticallyImplyLeading: false,
+backgroundColor: Colors.white,
+      appBar:  AppBar(
+        backgroundColor: Colors.white,
         elevation: 0,
+        automaticallyImplyLeading: false,
         title: Text(
           "My Cart",
-          style:
-              TextStyle(fontWeight: FontWeight.bold, color: Color(0xFFefcf18)),
+          style: TextStyle(
+              fontSize: 22, color: Colors.black54, fontWeight: FontWeight.bold),
         ),
       ),
       body: StreamBuilder(
@@ -186,86 +186,103 @@ class _CartScreenState extends State<CartScreen> {
                             height: 100,
                             width: double.infinity,
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: Colors.grey[300],
                               borderRadius:
                                   BorderRadius.all(Radius.circular(8)),
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            child: Column(
                               children: [
-                                Container(
-                                  height: 100,
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(8)),
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                              _documentSnapshot["images"][1]))),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  _documentSnapshot['name'],
-                                  style: TextStyle(
-                                      color: Colors.black87,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.all(10),
-                                  height: 50,
-                                  width: 105,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xff949494),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8)),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        height: 50,
-                                        width: 35,
-                                        child: IconButton(
-                                          onPressed: () {},
-                                          icon: Icon(
-                                            Icons.minimize,
-                                            color: Colors.white,
-                                          ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      height: 100,
+                                      width: 100,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.all(Radius.circular(8)),
+                                          image: DecorationImage(
+                                              image: NetworkImage(
+                                                  _documentSnapshot["images"][1]))),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+
+                                    Column(
+                                      children: [
+                                        Text(
+                                          _documentSnapshot['name'],
+                                          style: TextStyle(
+                                              color: Colors.black87,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 18),
                                         ),
+                                        Text(
+                                          _documentSnapshot['price'],
+                                          style: TextStyle(
+                                              color: Colors.black87,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 18),
+                                        ),
+                                      ],
+                                    ),
+
+                                    Container(
+                                      margin: EdgeInsets.all(10),
+                                      height: 40,
+                                      width: 80,
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFF282828),
+                                        borderRadius:
+                                            BorderRadius.all(Radius.circular(8)),
                                       ),
-                                      Container(
-                                        color: Color(0xfff7ede6),
-                                        height: 50,
-                                        width: 35,
-                                        child: Center(
-                                          child: Text(
-                                            "02",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            height: 40,
+                                            width: 25,
+                                            child: IconButton(
+                                              onPressed: () {},
+                                              icon: Icon(
+                                                CupertinoIcons.minus,
+                                                color: Color(0xFFefcf18),
+                                              ),
+                                            ),
                                           ),
-                                        ),
+                                          Container(
+                                            color: Color(0xFFefcf18),
+                                            height: 40,
+                                            width: 25,
+                                            child: Center(
+                                              child: Text(
+                                                "02",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold),
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 40,
+                                            width: 25,
+                                            child: IconButton(
+                                              onPressed: () {},
+                                              icon: Icon(
+                                                CupertinoIcons.add,
+                                                color: Color(0xFFefcf18),
+                                              ),
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                      Container(
-                                        height: 50,
-                                        width: 35,
-                                        child: IconButton(
-                                          onPressed: () {},
-                                          icon: Icon(
-                                            Icons.add,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    )
+                                  ],
                                 ),
-                                SizedBox(
-                                  height: 10,
-                                )
                               ],
                             ),
                           ),
