@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:meal_monkey/Advanced/widgets/review_dialog.dart';
 import 'package:meal_monkey/widgets/ratings_screen.dart';
 import 'package:meal_monkey/widgets/user_reviw_card.dart';
 
+import '../widgets/custom_simple_rounded_button.dart';
 import '../widgets/nav_bar.dart';
 import '../widgets/text_field_widget.dart';
 
@@ -105,7 +107,7 @@ class _ItemScreenState extends State<ItemScreen> {
             ),
             Padding(
               padding: EdgeInsets.all(25),
-              child: Image.network(widget._product['product-img'][1]),
+              child: Image.network(widget._product['product-img']),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -171,7 +173,7 @@ class _ItemScreenState extends State<ItemScreen> {
                       height: 8,
                     ),
                     Text(
-                      "1 KM",
+                     "${  widget._product['hotel-distance'].round()} KM",
                       style:
                           TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                     ),
@@ -200,7 +202,7 @@ class _ItemScreenState extends State<ItemScreen> {
                         height: 8,
                       ),
                       Text(
-                        "TAJ Hotel",
+                        widget._product['product-from'],
                         style: TextStyle(
                             fontSize: 17, fontWeight: FontWeight.bold),
                       ),
@@ -240,7 +242,7 @@ class _ItemScreenState extends State<ItemScreen> {
                         height: 8,
                       ),
                       Text(
-                        widget._product['product-price'],
+                        "${widget._product['product-price']}₹",
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
@@ -267,24 +269,15 @@ SizedBox(height: 20,),
                         style: TextStyle(
                             fontSize: 22, color: Colors.black54, fontWeight: FontWeight.bold),
                       ),
-                      Container(
-
-                        height: 35,
-                        child: ElevatedButton(
-
+                      CustomSimpleRoundedButton(
                           onPressed: () {
-
+                            showDialog(
+                                context: context,
+                                builder: (context) => ReviewDialog(
+                                  uid: FirebaseAuth.instance.currentUser!.uid,
+                                ));
                           },
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                              primary: Colors.blue),
-                          child: Text(
-                            "Rate Item",
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
+                          text: "Add a review "),
 
                     ],
                   ),

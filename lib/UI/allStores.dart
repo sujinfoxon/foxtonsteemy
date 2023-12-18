@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:meal_monkey/data/dummyShops.dart';
@@ -10,6 +11,28 @@ class AllStores extends StatefulWidget {
 }
 
 class _AllStoresState extends State<AllStores> {
+  List _products = [];
+  var _firestoreInstance = FirebaseFirestore.instance;
+  fetchProducts() async {
+    QuerySnapshot qn = await _firestoreInstance.collection("popular_foods").get();
+    setState(() {
+      for (int i = 0; i < qn.docs.length; i++) {
+        _products.add({
+          "product-img": qn.docs[i]["product-img"],
+          "product-price": qn.docs[i]["product-price"],
+          "product-description": qn.docs[i]["product-description"],
+          "product-calories": qn.docs[i]["product-calories"],
+          "product-volume": qn.docs[i]["product-volume"],
+          "product-name": qn.docs[i]["product-name"],
+          "hotel-latitude": qn.docs[i]["hotel-latitude"],
+          "hotel-longitude": qn.docs[i]["hotel-longitude"],
+          "hotel-distance": qn.docs[i]["hotel-distance"],
+        });
+      }
+    });
+
+    return qn.docs;
+  }
   Position? _currentUserPosition;
   double? distanceImMeter = 0.0;
   Data data = Data();
@@ -17,9 +40,9 @@ class _AllStoresState extends State<AllStores> {
   Future _getTheDistance() async {
     _currentUserPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
-    for (int i = 0; i < data.allstores.length; i++) {
-      double storelat = data.allstores[i]['lat'];
-      double storelng = data.allstores[i]['lng'];
+    for (int i = 0; i < _products.length; i++) {
+      double storelat =  _products[i]["hotel-latitude"];
+      double storelng =   _products[i]["hotel-longitude"];
 
       distanceImMeter = await Geolocator.distanceBetween(
         _currentUserPosition!.latitude,
@@ -29,7 +52,7 @@ class _AllStoresState extends State<AllStores> {
       );
       var distance = distanceImMeter?.round().toInt();
 
-      data.allstores[i]['distance'] = (distance! / 1000);
+      _products[i]["hotel-distance"] = (distance! / 1000);
       setState(() {});
     }
   }
@@ -37,6 +60,7 @@ class _AllStoresState extends State<AllStores> {
   @override
   void initState() {
     _getTheDistance();
+    fetchProducts();
     super.initState();
   }
 
@@ -53,7 +77,7 @@ class _AllStoresState extends State<AllStores> {
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
         child: GridView.builder(
-            itemCount: data.allstores.length,
+            itemCount: _products.length,
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 200,
               childAspectRatio: 3 / 3,
@@ -71,7 +95,7 @@ class _AllStoresState extends State<AllStores> {
                       height: height * 0.12,
                       width: width,
                       child: Image.network(
-                        data.allstores[index]['image'],
+                        _products[index]["product-img"],
                         fit: BoxFit.fill,
                       ),
                     ),
@@ -79,7 +103,7 @@ class _AllStoresState extends State<AllStores> {
                       height: 15,
                     ),
                     Text(
-                      data.allstores[index]['name'],
+                      _products[index]["product-name"],
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -94,7 +118,7 @@ class _AllStoresState extends State<AllStores> {
                       children: [
                         Icon(Icons.location_on),
                         Text(
-                          "${data.allstores[index]['distance'].round()} KM Away",
+                          "${  _products[index]["hotel-distance"].round()} KM Away",
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

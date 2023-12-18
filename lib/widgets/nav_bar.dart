@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:meal_monkey/Advanced/screens/product_upload_screen.dart';
+import 'package:meal_monkey/Advanced/screens/sell_screen.dart';
 import 'package:meal_monkey/UI/allStores.dart';
 import 'package:meal_monkey/screens/cart_screen.dart';
 import 'package:meal_monkey/screens/favourite_screen.dart';
@@ -22,7 +24,7 @@ class _NavBarRootsState extends State<NavBarRoots> {
     HomeScreen( uid: FirebaseAuth.instance.currentUser!.uid),
     FavouriteScreen(),
     CartScreen(),
-    AllStores()
+    AddFoods()
   ];
 
   @override

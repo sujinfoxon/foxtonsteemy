@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:meal_monkey/firebase/datas/userdata.dart';
 import 'package:meal_monkey/profile_pages/user_profile_screen.dart';
 import 'package:meal_monkey/screens/category_screen.dart';
@@ -59,7 +60,27 @@ class _HomeScreenState extends State<HomeScreen> {
       _image = im;
     });
   }
+  Position? _currentUserPosition;
+  double? distanceImMeter = 0.0;
+  Future _getTheDistance() async {
+    _currentUserPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
+    for (int i = 0; i < _products.length; i++) {
+      double storelat =  _products[i]["hotel-latitude"];
+      double storelng =   _products[i]["hotel-longitude"];
+
+      distanceImMeter = await Geolocator.distanceBetween(
+        _currentUserPosition!.latitude,
+        _currentUserPosition!.longitude,
+        storelat,
+        storelng,
+      );
+      var distance = distanceImMeter?.round().toInt();
+
+      _products[i]["hotel-distance"] = (distance! / 1000);
+      setState(() {});
+    }
+  }
   List _products = [];
   List _Hotels = [];
   var _firestoreInstance = FirebaseFirestore.instance;
@@ -74,6 +95,11 @@ class _HomeScreenState extends State<HomeScreen> {
           "product-calories": qn.docs[i]["product-calories"],
           "product-volume": qn.docs[i]["product-volume"],
           "product-name": qn.docs[i]["product-name"],
+          "hotel-latitude": qn.docs[i]["hotel-latitude"],
+          "hotel-longitude": qn.docs[i]["hotel-longitude"],
+          "hotel-distance": qn.docs[i]["hotel-distance"],
+          "food-type": qn.docs[i]["food-type"],
+          "product-from": qn.docs[i]["product-from"],
         });
       }
     });
@@ -98,6 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     fetchHotels();
+    _getTheDistance();
     getData();
     startStreaming();
     super.initState();
@@ -396,7 +423,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 topRight: Radius.circular(10),
                               ),
                               child: Image.network(
-                                _products[index]["product-img"][0],
+                                _products[index]["product-img"],
                                 height: 120,
                                 width: MediaQuery.of(context).size.width / 1.4,
                                 fit: BoxFit.cover,
@@ -420,7 +447,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         height: 5,
                                       ),
                                       Text(
-                                        "Fast Food",
+                                        _products[index]["food-type"],
                                         style: TextStyle(
                                             fontSize: 16, color: Colors.black45),
                                       ),
@@ -469,7 +496,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               width: 2,
                                             ),
                                             Text(
-                                              "1 kM",
+                                              "${  _products[index]["hotel-distance"].round()} KM",
                                               style: TextStyle(
                                                   color: Colors.black45,
                                                   fontWeight: FontWeight.w500),
@@ -488,7 +515,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               topLeft: Radius.circular(10),
                                             )),
                                         child: Text(
-                                          _products[index]["product-price"],
+                                          "${_products[index]["product-price"]}₹",
                                           style: TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
