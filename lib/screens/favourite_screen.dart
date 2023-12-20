@@ -98,79 +98,147 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                               )
                             ],
                           ),
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.all(15),
-                                height: 100,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[300],
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8)),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+
+
+                              children: [
+
+                                Center(
+                                  child: Container(
+                                    width: double.infinity,
+                                    margin: EdgeInsets.only(
+                                        left: 15, top: 5, bottom: 5, right: 5),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black12,
+                                            blurRadius: 4,
+                                            spreadRadius: 2,
+                                          )
+                                        ]),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Container(
-                                          height: 100,
-                                          width: 100,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(8)),
-                                              image: DecorationImage(
-                                                  image: NetworkImage(
-                                                      _documentSnapshot[
-                                                          "images"][1]))),
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(10),
+                                            topRight: Radius.circular(10),
+                                          ),
+                                          child: Image.network(
+                                           _documentSnapshot['images'],
+                                            height: 120,
+                                            width: double.infinity,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Column(
-                                          children: [
-                                            Text(
-                                              _documentSnapshot['name'],
-                                              style: TextStyle(
-                                                  color: Colors.black87,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 18),
-                                            ),
-                                            Text(
-                                              _documentSnapshot['price'],
-                                              style: TextStyle(
-                                                  color: Colors.black87,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 18),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.location_on,
-                                              color: Color(0xFFFF5208),
-                                            ),
-                                            Text(
-                                              "35KM",
-                                              style: TextStyle(
-                                                  color: Colors.black87,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 18),
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            )
-                                          ],
-                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    _documentSnapshot["name"],
+                                                    style: TextStyle(
+                                                        fontSize: 17,
+                                                        fontWeight: FontWeight.bold),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Text(
+                                                    _documentSnapshot["hotel"],
+                                                    style: TextStyle(
+                                                        fontSize: 16, color: Colors.black45),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.star,
+                                                        color: Color(0xFFFF2F08),
+                                                        size: 20,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 2,
+                                                      ),
+                                                      Text(
+                                                        "4.7",
+                                                        style: TextStyle(
+                                                            fontWeight: FontWeight.bold),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text(
+                                                        "(941 Ratings)",
+                                                        style:
+                                                        TextStyle(color: Colors.black45),
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: EdgeInsets.all(8),
+                                                    child: Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons.location_on,
+                                                          color: Color(0xFFFF2F08),
+                                                          size: 20,
+                                                        ),
+                                                        SizedBox(
+                                                          width: 2,
+                                                        ),
+                                                        Text(
+                                                          "${  _documentSnapshot['distance'].round()}KM",
+                                                          style: TextStyle(
+                                                              color: Colors.black45,
+                                                              fontWeight: FontWeight.w500),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Container(
+                                                    padding: EdgeInsets.all(12),
+                                                    decoration: BoxDecoration(
+                                                        color: Color(0xFFFF2F08),
+                                                        borderRadius: BorderRadius.only(
+                                                          topLeft: Radius.circular(10),
+                                                        )),
+                                                    child: Text(
+                                                      "${_documentSnapshot["price"]}₹",
+                                                      style: TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight: FontWeight.bold,
+                                                          color: Colors.white),
+                                                    ),
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        )
                                       ],
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],

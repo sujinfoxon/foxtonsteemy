@@ -203,7 +203,7 @@ backgroundColor: Colors.white,
                                               BorderRadius.all(Radius.circular(8)),
                                           image: DecorationImage(
                                               image: NetworkImage(
-                                                  _documentSnapshot["images"][1]))),
+                                                  _documentSnapshot["images"]))),
                                     ),
                                     SizedBox(
                                       width: 5,
@@ -219,7 +219,14 @@ backgroundColor: Colors.white,
                                               fontSize: 18),
                                         ),
                                         Text(
-                                          _documentSnapshot['price'],
+                                          _documentSnapshot['hotel'],
+                                          style: TextStyle(
+                                              color: Colors.black87,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 18),
+                                        ),
+                                        Text(
+                                         " ${_documentSnapshot['price']}₹",
                                           style: TextStyle(
                                               color: Colors.black87,
                                               fontWeight: FontWeight.w500,
@@ -318,4 +325,5 @@ backgroundColor: Colors.white,
       ),
     );
   }
+
 }

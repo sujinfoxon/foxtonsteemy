@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:swipeable_button_view/swipeable_button_view.dart';
@@ -14,6 +16,12 @@ class CheckoutScreen extends StatefulWidget {
 class _CheckoutScreenState extends State<CheckoutScreen> {
   bool isFinished = false;
   String gender = "male";
+@override
+  void initState() {
+  fetchPrice();
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,12 +61,16 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         Text(
                           "Item Price:",
                           style: TextStyle(
-                              fontSize: 22, color: Colors.black, fontWeight: FontWeight.bold),
+                              fontSize: 22,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "200",
+                          "${amount}₹",
                           style: TextStyle(
-                              fontSize: 22, color: Colors.black, fontWeight: FontWeight.bold),
+                              fontSize: 22,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -69,12 +81,16 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         Text(
                           "Delivery Charges:",
                           style: TextStyle(
-                              fontSize: 22, color: Colors.black, fontWeight: FontWeight.bold),
+                              fontSize: 22,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
                         ),
                         Text(
                           "40",
                           style: TextStyle(
-                              fontSize: 22, color: Colors.black, fontWeight: FontWeight.bold),
+                              fontSize: 22,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -85,16 +101,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         Text(
                           "Total Price:",
                           style: TextStyle(
-                              fontSize: 22, color: Colors.black, fontWeight: FontWeight.bold),
+                              fontSize: 22,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "240",
+                          "${amount + total}₹",
                           style: TextStyle(
-                              fontSize: 22, color: Colors.black, fontWeight: FontWeight.bold),
+                              fontSize: 22,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
-
                   ],
                 ),
               ),
@@ -104,7 +123,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               child: Text(
                 "Payments",
                 style: TextStyle(
-                    fontSize: 22, color: Colors.black54, fontWeight: FontWeight.bold),
+                    fontSize: 22,
+                    color: Colors.black54,
+                    fontWeight: FontWeight.bold),
               ),
             ),
             Container(
@@ -126,22 +147,24 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                       CircleAvatar(
-
-                           backgroundImage: AssetImage("assets/img_1.png"),
-                          ),
+                        CircleAvatar(
+                          backgroundImage: AssetImage("assets/img_2.png"),
+                        ),
                         Text(
                           "Pay Online",
                           style: TextStyle(
-                              fontSize: 22, color: Colors.black, fontWeight: FontWeight.bold),
+                              fontSize: 22,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
                         ),
                         Radio(
-                            value: "radio value",
-                            groupValue: "group value",
-                            onChanged: (value){
-                              print(value); //selected value
-                            }
-                        )
+                            value: "Pay Online",
+                            groupValue: gender,
+                            onChanged: (value) {
+                              setState(() {
+                                gender = value.toString();
+                              });
+                            })
                       ],
                     ),
                     Row(
@@ -149,24 +172,26 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CircleAvatar(
-
-                          backgroundImage: AssetImage("assets/img_1.png"),
+                          backgroundImage: AssetImage("assets/img_3.png"),
                         ),
                         Text(
                           "Cash on Delivery",
                           style: TextStyle(
-                              fontSize: 22, color: Colors.black, fontWeight: FontWeight.bold),
+                              fontSize: 22,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
                         ),
                         Radio(
-                            value: "radio value",
-                            groupValue: "group value",
-                            onChanged: (value){
-                              print(value); //selected value
-                            }
+                          value: "Cash on Delivery",
+                          groupValue: gender,
+                          onChanged: (value) {
+                            setState(() {
+                              gender = value.toString();
+                            });
+                          },
                         )
                       ],
                     ),
-
                   ],
                 ),
               ),
@@ -202,5 +227,32 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             }),
       ),
     );
+  }
+
+  int amount = 0;
+  int? sum = 0;
+  int total =  40 ;
+
+  void fetchPrice() async {
+    final data = await FirebaseFirestore.instance
+        .collection('users-cart-items')
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .collection("items")
+        .get();
+
+    List<Map<String, dynamic>?>? documentData = data?.docs
+        .map((e) => e.data() as Map<String, dynamic>?)
+        .toList(); //working
+
+    int len = documentData!.length;
+    int price = documentData![0]!['price'];
+
+    for (int i = 0; i < len; i++) {
+      sum = (sum! + documentData![i]!['price']) as int?;
+      print('i ' + i.toString() + ' amt: ' + sum.toString());
+    }
+    setState(() {
+      amount = sum!;
+    });
   }
 }

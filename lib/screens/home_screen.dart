@@ -13,6 +13,7 @@ import 'package:meal_monkey/profile_pages/user_profile_screen.dart';
 import 'package:meal_monkey/screens/category_screen.dart';
 import 'package:meal_monkey/screens/item_screen.dart';
 import 'package:meal_monkey/screens/restaurants.dart';
+import 'package:meal_monkey/screens/search_screen.dart';
 import 'package:meal_monkey/utils/utils.dart';
 import '../firebase/offer slider/offer_slider.dart';
 import '../widgets/tab_controller.dart';
@@ -165,6 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
       checkInternet();
     });
   }
+  TextEditingController _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     List foods = ["Burger", "Pizza", "Snacks", "Water",];
@@ -276,11 +278,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     child: Center(
                       child: TextFormField(
+                        controller: _searchController,
                         decoration: InputDecoration(
                           hintText: "Search your food here...",
                           border: InputBorder.none,
                           prefixIcon: Icon(Icons.search),
                         ),
+                        onTap: () => Navigator.push(context,
+                            CupertinoPageRoute(builder: (_) => SearchScreen())),
                       ),
                     ),
                   ),

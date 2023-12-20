@@ -356,6 +356,8 @@ SizedBox(height: 20,),
       "name": widget._product["product-name"],
       "price": widget._product["product-price"],
       "images": widget._product["product-img"],
+      "distance": widget._product['hotel-distance'],
+      "hotel": widget._product['product-from'],
 
     }).then((value) => print("Added to favourite"));
   }
@@ -373,6 +375,10 @@ SizedBox(height: 20,),
       "name": widget._product["product-name"],
       "price": widget._product["product-price"],
       "images": widget._product["product-img"],
+      "hotel": widget._product['product-from'],
+
+
+
     }).then((value) =>
         Get.snackbar(' Cart', 'Product Added to Cart Successfully',
           colorText: Color(0xFFefcf18),

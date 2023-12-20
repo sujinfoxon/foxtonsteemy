@@ -9,8 +9,8 @@ class Food {
   final String volume;
   final String foodtype;
   final String from;
-  final int latitude;
-  final int longitude;
+  final double latitude;
+  final double longitude;
   final int distance;
 
   const Food({
