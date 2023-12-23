@@ -23,6 +23,13 @@ class ItemScreen extends StatefulWidget {
 }
 
 class _ItemScreenState extends State<ItemScreen> {
+   String available = '';
+   @override
+  void initState() {
+    // TODO: implement initState
+     dist();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -227,7 +234,7 @@ class _ItemScreenState extends State<ItemScreen> {
                         height: 8,
                       ),
                       Text(
-                        "Express",
+                        available,
                         style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
@@ -377,10 +384,16 @@ class _ItemScreenState extends State<ItemScreen> {
   }
 
   void dist() {
-    if (widget._product['dest-location'] > 4) {
+    if (widget._product['dest-location'] > 8) {
       print("Far Away");
+      setState(() {
+        available = "Unavailable";
+      });
     } else {
       print("Delivery Available");
+      setState(() {
+        available = "Available";
+      });
     }
   }
 
