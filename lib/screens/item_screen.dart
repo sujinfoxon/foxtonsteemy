@@ -27,7 +27,6 @@ class _ItemScreenState extends State<ItemScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         title: Text(
           widget._product['product-name'],
           style: TextStyle(color: Colors.black, fontSize: 25),
@@ -37,7 +36,8 @@ class _ItemScreenState extends State<ItemScreen> {
         centerTitle: true,
         leading: InkWell(
           onTap: () {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NavBarRoots()));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => NavBarRoots()));
           },
           child: Icon(
             Icons.arrow_back_ios,
@@ -46,34 +46,40 @@ class _ItemScreenState extends State<ItemScreen> {
         ),
         actions: [
           StreamBuilder(
-            stream: FirebaseFirestore.instance.collection("users-favourite-items").doc(FirebaseAuth.instance.currentUser!.email)
-                .collection("items").where("name",isEqualTo: widget._product['product-name']).snapshots(),
-            builder: (BuildContext context, AsyncSnapshot snapshot){
-              if(snapshot.data==null){
+            stream: FirebaseFirestore.instance
+                .collection("users-favourite-items")
+                .doc(FirebaseAuth.instance.currentUser!.email)
+                .collection("items")
+                .where("name", isEqualTo: widget._product['product-name'])
+                .snapshots(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.data == null) {
                 return Text("User Cart Item is empty");
               }
               return Padding(
                 padding: const EdgeInsets.only(right: 8),
                 child: CircleAvatar(
-                  backgroundColor:  Color(0xFF282828),
+                  backgroundColor: Color(0xFF282828),
                   child: IconButton(
-                    onPressed: () => snapshot.data.docs.length==0?addToFavourite():print("Already Added"),
-                    icon: snapshot.data.docs.length==0? Icon(
-                      Icons.favorite_outline,
-                      color:Color(0xFFefcf18),
-                    ):Icon(
-                      Icons.favorite,
-                      color:Color(0xFFefcf18),
-                    ),
+                    onPressed: () => snapshot.data.docs.length == 0
+                        ? addToFavourite()
+                        : print("Already Added"),
+                    icon: snapshot.data.docs.length == 0
+                        ? Icon(
+                            Icons.favorite_outline,
+                            color: Color(0xFFefcf18),
+                          )
+                        : Icon(
+                            Icons.favorite,
+                            color: Color(0xFFefcf18),
+                          ),
                   ),
                 ),
               );
             },
-
           ),
         ],
       ),
-
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -173,7 +179,7 @@ class _ItemScreenState extends State<ItemScreen> {
                       height: 8,
                     ),
                     Text(
-                     "${  widget._product['hotel-distance'].round()} KM",
+                      "${widget._product['hotel-distance'].round()} KM",
                       style:
                           TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                     ),
@@ -254,7 +260,9 @@ class _ItemScreenState extends State<ItemScreen> {
                 ],
               ),
             ),
-SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Padding(
               padding: EdgeInsets.all(10),
               child: Column(
@@ -263,42 +271,66 @@ SizedBox(height: 20,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-
                       Text(
                         "Reviews & Ratings",
                         style: TextStyle(
-                            fontSize: 22, color: Colors.black54, fontWeight: FontWeight.bold),
+                            fontSize: 22,
+                            color: Colors.black54,
+                            fontWeight: FontWeight.bold),
                       ),
                       CustomSimpleRoundedButton(
                           onPressed: () {
                             showDialog(
                                 context: context,
                                 builder: (context) => ReviewDialog(
-                                  uid: FirebaseAuth.instance.currentUser!.uid,
-                                ));
+                                      uid: FirebaseAuth
+                                          .instance.currentUser!.uid,
+                                    ));
                           },
                           text: "Add a review "),
-
                     ],
                   ),
-                  SizedBox(height: 10,),
-                  Text("Ratings and reviews are verified and are from who use the same type of device that you use.",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Ratings and reviews are verified and are from who use the same type of device that you use.",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   overall_rating(),
                   RatingBarIndicator(
                       rating: 4.5,
                       itemSize: 20,
-                      itemBuilder:(_,__)=>Icon(Icons.star,color: Color(0xFFefcf18),)),
-                  Text("(12,611)",style: TextStyle(fontSize: 20),),
-                  SizedBox(height: 25,),
+                      itemBuilder: (_, __) => Icon(
+                            Icons.star,
+                            color: Color(0xFFefcf18),
+                          )),
+                  Text(
+                    "(12,611)",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
                   UserReviewCard(uid: FirebaseAuth.instance.currentUser!.uid),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   UserReviewCard(uid: FirebaseAuth.instance.currentUser!.uid),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   UserReviewCard(uid: FirebaseAuth.instance.currentUser!.uid),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   UserReviewCard(uid: FirebaseAuth.instance.currentUser!.uid),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   UserReviewCard(uid: FirebaseAuth.instance.currentUser!.uid),
                 ],
               ),
@@ -309,6 +341,7 @@ SizedBox(height: 20,),
       bottomNavigationBar: InkWell(
         onTap: () {
           addToCart();
+          dist();
         },
         child: Container(
           height: 60,
@@ -343,11 +376,19 @@ SizedBox(height: 20,),
     );
   }
 
+  void dist() {
+    if (widget._product['dest-location'] > 4) {
+      print("Far Away");
+    } else {
+      print("Delivery Available");
+    }
+  }
+
   Future addToFavourite() async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     var currentUser = _auth.currentUser;
     CollectionReference _collectionRef =
-    FirebaseFirestore.instance.collection("users-favourite-items");
+        FirebaseFirestore.instance.collection("users-favourite-items");
     return _collectionRef
         .doc(currentUser!.email)
         .collection("items")
@@ -358,7 +399,6 @@ SizedBox(height: 20,),
       "images": widget._product["product-img"],
       "distance": widget._product['hotel-distance'],
       "hotel": widget._product['product-from'],
-
     }).then((value) => print("Added to favourite"));
   }
 
@@ -366,7 +406,7 @@ SizedBox(height: 20,),
     final FirebaseAuth _auth = FirebaseAuth.instance;
     var currentUser = _auth.currentUser;
     CollectionReference _collectionRef =
-    FirebaseFirestore.instance.collection("users-cart-items");
+        FirebaseFirestore.instance.collection("users-cart-items");
     return _collectionRef
         .doc(currentUser!.email)
         .collection("items")
@@ -376,16 +416,12 @@ SizedBox(height: 20,),
       "price": widget._product["product-price"],
       "images": widget._product["product-img"],
       "hotel": widget._product['product-from'],
-
-
-
-    }).then((value) =>
-        Get.snackbar(' Cart', 'Product Added to Cart Successfully',
+    }).then(
+      (value) => Get.snackbar(' Cart', 'Product Added to Cart Successfully',
           colorText: Color(0xFFefcf18),
           duration: Duration(seconds: 3),
           backgroundColor: Color(0xFF282828),
-          snackPosition: SnackPosition.TOP
-        ),
+          snackPosition: SnackPosition.TOP),
     );
   }
 }

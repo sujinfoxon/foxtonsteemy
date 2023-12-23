@@ -82,6 +82,25 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {});
     }
   }
+  Future _getTheradius() async {
+    _currentUserPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+    for (int i = 0; i < _products.length; i++) {
+      double storelat =  _products[i]["dest-latitude"];
+      double storelng =   _products[i]["dest-longitude"];
+
+      distanceImMeter = await Geolocator.distanceBetween(
+        _currentUserPosition!.latitude,
+        _currentUserPosition!.longitude,
+        storelat,
+        storelng,
+      );
+      var distance = distanceImMeter?.round().toInt();
+
+      _products[i]["dest-location"] = (distance! / 1000);
+      setState(() {});
+    }
+  }
   List _products = [];
   List _Hotels = [];
   var _firestoreInstance = FirebaseFirestore.instance;
@@ -101,6 +120,9 @@ class _HomeScreenState extends State<HomeScreen> {
           "hotel-distance": qn.docs[i]["hotel-distance"],
           "food-type": qn.docs[i]["food-type"],
           "product-from": qn.docs[i]["product-from"],
+          "dest-longitude": qn.docs[i]["dest-longitude"],
+          "dest-latitude": qn.docs[i]["dest-latitude"],
+          "dest-location": qn.docs[i]["dest-location"],
         });
       }
     });
@@ -126,6 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     fetchHotels();
     _getTheDistance();
+    _getTheradius();
     getData();
     startStreaming();
     super.initState();
